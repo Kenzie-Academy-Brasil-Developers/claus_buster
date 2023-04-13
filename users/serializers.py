@@ -10,7 +10,7 @@ class UserSerializer(serializers.Serializer):
         queryset=User.objects.all(),
         message='username already taken.'
     )])
-    email = serializers.CharField(max_length=127, validators=[UniqueValidator(
+    email = serializers.EmailField(max_length=127, validators=[UniqueValidator(
         queryset=User.objects.all(),
         message='email already registered.'
     )])

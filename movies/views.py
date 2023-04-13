@@ -2,9 +2,11 @@ from rest_framework.views import APIView, Request, Response, status
 from users.permissions import IsEmployeeOrReadOnly
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from .serializers import MovieSerializer
-from .models import Movie
+from .serializers import MovieOrderSerializer
 from django.shortcuts import get_object_or_404
 from .models import Movie
+from rest_framework.permissions import IsAuthenticated
+from bpdb import set_trace
 
 class MovieView(APIView):
     authentication_classes = [JWTAuthentication]
@@ -35,3 +37,17 @@ class MovieViewSpecific(APIView):
         movie = get_object_or_404(Movie, pk=movie_id)
         serializer = MovieSerializer(instance=movie)
         return Response(serializer.data, status.HTTP_200_OK)
+
+class MovieOrderView(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]  # trocar para só pode criar com usuário
+
+    def post(self, req: Request, movie_id: int) -> Response:
+        movie = get_object_or_404(Movie, pk=movie_id)
+        # req.data['users'] = req.user
+        # req.data['movies'] = movie
+        # set_trace()
+        serializer = MovieOrderSerializer(data=req.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save(users=req.user, movies=movie)
+        return Response(serializer.data, status.HTTP_201_CREATED)

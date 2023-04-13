@@ -1,4 +1,5 @@
 from django.db import models
+from users.models import User
 
 
 class Rating(models.TextChoices):
@@ -15,17 +16,21 @@ class Movie(models.Model):
     synopsis = models.TextField(null=True, default=None)
     rating = models.CharField(max_length=20, null=True, default=Rating.G, choices=Rating.choices)
     user = models.ForeignKey('users.User', on_delete=models.CASCADE, related_name='movies')
+    user_many = models.ManyToManyField(
+        User,
+        through='MovieOrder',
+        related_name='movie_many'
+    )
 
     def __repr__(self):
         return f'<Movie [{self.pk}] {self.title} - {self.user.username}>'
-"""
-Trivia!
 
-As regras de indicação parental sobre exibição de filmes nos cinemas foram atualizadas pela última vez em setembro de 1990 pelo Sistema de classificação de filmes da Motion Picture Association, onde ficou acordado sobre as nomenclaturas e o que elas significam:
 
-Rated G: General audiences (audiencia geral), qualquer idade permitida.
-Rated PG: Parental guidance suggested (orientação parental sugerida), algumas partes podem não ser adequadas para crianças.
-Rated PG-13: Parents strongly cautioned (orientação parental fortemente sugerida), algumas partes podem não ser adequadas para crianças abaixo de 13 anos.
-Rated R: Restricted (restrito), pessoas abaixo de 17 anos precisam estar acompanhadas dos pais ou de supervisores adultos.
-Rated NC-17: Adults Only (somente adultos), nenhuma pessoa abaixo de 17 anos é permitida.
-"""
+class MovieOrder(models.Model):
+    buyed_at = models.DateTimeField(auto_now_add=True)
+    price = models.DecimalField(max_digits=8, decimal_places=2)
+    users = models.ForeignKey(User, on_delete=models.CASCADE)
+    movies = models.ForeignKey(Movie, on_delete=models.CASCADE)
+
+    def __repr__(self):
+        return f'<MovieOrder [{self.pk}] {self.users.username} - {self.movies.title} (R${self.price})>'

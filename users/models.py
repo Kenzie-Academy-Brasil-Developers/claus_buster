@@ -12,6 +12,7 @@ class User(AbstractUser):
     is_superuser = models.BooleanField(default=False)
     password = models.CharField(max_length=127)
 
+
     def __repr__(self):
         return f'<User [{self.pk}] {self.username} - {self.email}: (is_superuser: {self.is_superuser})>'
 
