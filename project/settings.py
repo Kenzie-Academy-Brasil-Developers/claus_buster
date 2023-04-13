@@ -45,9 +45,10 @@ THIRD_PARTY_APPS = [
 
 MY_APPS = [
     'users',
+    'movies'
 ]
 
-INSTALLED_APPS = THIRD_PARTY_APPS + MY_APPS + DJANGO_APPS
+INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + MY_APPS
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

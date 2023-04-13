@@ -6,7 +6,9 @@ charset-normalizer==3.1.0
 curtsies==0.4.1
 cwcwidth==0.1.8
 Django==4.2
+django-enumchoicefield==3.0.1
 djangorestframework==3.14.0
+djangorestframework-simplejwt==5.2.2
 docopt==0.6.2
 greenlet==2.0.2
 idna==3.4
@@ -19,6 +21,7 @@ prompt-toolkit==1.0.18
 ptpdb==0.17
 ptpython==0.33
 Pygments==2.15.0
+PyJWT==2.6.0
 pytest==7.3.0
 pytest-django==4.5.2
 pytest-testdox==3.0.1
