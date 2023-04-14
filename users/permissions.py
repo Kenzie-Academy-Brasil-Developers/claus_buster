@@ -1,5 +1,7 @@
 from rest_framework import permissions
 from rest_framework.views import Request, View
+from .models import User
+from bpdb import set_trace
 
 
 class IsEmployeeOrReadOnly(permissions.BasePermission):
@@ -9,4 +11,13 @@ class IsEmployeeOrReadOnly(permissions.BasePermission):
             or request.user.is_authenticated and
             request.user.is_employee
         )
+
+
+class IfEmployeeReadAllOrReadSelf(permissions.BasePermission):
+    def has_object_permission(self, request: Request, view: View, obj: User) -> bool:
+        return (
+            request.user.is_employee
+            or obj == request.user
+        )
+
 

@@ -9,6 +9,7 @@ from tests.factories import (
     create_multiple_movies_with_employee,
 )
 
+
 User: AbstractUser = get_user_model()
 
 
@@ -42,7 +43,7 @@ class UserViewsT4Test(APITestCase):
         # STATUS CODE
         self.client.credentials(HTTP_AUTHORIZATION="Bearer " + non_employee_token)
         response = self.client.get(base_url)
-        # ipdb.set_trace()
+
         expected_status_code = status.HTTP_200_OK
         returned_status_code = response.status_code
         msg = (
@@ -91,7 +92,7 @@ class UserViewsT4Test(APITestCase):
         # STATUS CODE
         self.client.credentials(HTTP_AUTHORIZATION="Bearer " + employee_token)
         response = self.client.get(base_url)
-        # ipdb.set_trace()
+
         expected_status_code = status.HTTP_200_OK
         returned_status_code = response.status_code
         msg = (
