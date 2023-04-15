@@ -1,7 +1,7 @@
 from rest_framework import permissions
 from rest_framework.views import Request, View
 from .models import User
-from bpdb import set_trace
+
 
 
 class IsEmployeeOrReadOnly(permissions.BasePermission):
